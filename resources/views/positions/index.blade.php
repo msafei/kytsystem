@@ -13,6 +13,8 @@
             <tr class="bg-gray-200">
                 <th class="border px-4 py-2">ID</th>
                 <th class="border px-4 py-2">Name</th>
+                <th class="border px-4 py-2">Company Type</th>
+                <th class="border px-4 py-2">Default Role</th>
                 <th class="border px-4 py-2">Actions</th>
             </tr>
         </thead>
@@ -21,6 +23,8 @@
             <tr>
                 <td class="border px-4 py-2">{{ $position->id }}</td>
                 <td class="border px-4 py-2">{{ $position->name }}</td>
+                <td class="border px-4 py-2">{{ $position->companyTypeLabel }}</td>
+                <td class="border px-4 py-2">{{ $position->defaultRole }}</td>
                 <td class="border px-4 py-2">
                     <a href="{{ route('positions.edit', $position->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</a>
                     <form action="{{ route('positions.delete', $position->id) }}" method="POST" class="inline-block">

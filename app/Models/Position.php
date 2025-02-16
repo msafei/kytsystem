@@ -9,5 +9,11 @@ class Position extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'companyType', 'defaultRole'];
+
+    // Label untuk Company Type (1 = Main Company, 2 = Outsourcing)
+    public function getCompanyTypeLabelAttribute()
+    {
+        return $this->companyType == 1 ? 'Main Company' : 'Outsourcing';
+    }
 }
