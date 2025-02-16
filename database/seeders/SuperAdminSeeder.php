@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -12,7 +11,7 @@ class SuperAdminSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'id' => Str::uuid(),
+            'id' => '1000',
             'employee_id' => null,
             'status_id' => 1,
             'username' => 'superadmin',
