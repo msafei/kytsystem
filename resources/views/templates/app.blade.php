@@ -6,13 +6,17 @@
 </head>
 <body class="bg-gray-100">
 
-    <!-- Navbar -->
-    <nav class="bg-blue-500 p-4 text-white flex justify-between items-center">
-        <!-- Kiri: Logo dan Master Data -->
+    <!-- Navbar hanya muncul jika user sudah login -->
+    @auth
+    <nav class="bg-white p-4 text-gray-900 flex justify-between items-center shadow-md">
+        <!-- Kiri: Logo SVG dan Master Data -->
         <div class="flex items-center">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-10 mr-3">
+            <!-- Gunakan file SVG -->
+            <img src="{{ asset('images/logo.svg') }}" alt="KYT System Logo" class="h-10 w-auto mr-3">
+
+            <!-- Dropdown Master Data -->
             <div class="relative group">
-                <button class="hover:bg-blue-700 px-4 py-2 rounded">Master Data</button>
+                <button class="hover:bg-gray-200 px-4 py-2 rounded">Master Data</button>
                 <div class="absolute hidden group-hover:block bg-white text-black rounded shadow-md w-40">
                     <a href="{{ route('users.index') }}" class="block px-4 py-2 hover:bg-gray-200">Users</a>
                     <a href="#" class="block px-4 py-2 hover:bg-gray-200">Employee</a>
@@ -24,7 +28,7 @@
 
         <!-- Kanan: Username & Dropdown -->
         <div class="relative group">
-            <button class="hover:bg-blue-700 px-4 py-2 rounded">
+            <button class="hover:bg-gray-200 px-4 py-2 rounded">
                 {{ auth()->user()->username }}
             </button>
             <div class="absolute hidden group-hover:block bg-white text-black rounded shadow-md w-40 right-0">
@@ -36,6 +40,7 @@
             </div>
         </div>
     </nav>
+    @endauth
 
     <!-- Konten Halaman -->
     <div class="container mx-auto mt-8">

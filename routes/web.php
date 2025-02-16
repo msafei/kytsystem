@@ -23,7 +23,11 @@ Route::get('/', function () {
 // Routes untuk Login dan Logout
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'processLogin'])->name('login.process');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login')->with('success', 'Logout berhasil.');
+})->name('logout');
+
 
 // Routes yang hanya bisa diakses oleh user yang sudah login
 Route::middleware('auth')->group(function () {
