@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PositionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,5 +68,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/departments/update/{id}', [DepartmentController::class, 'update'])->name('departments.update');
     Route::delete('/departments/delete/{id}', [DepartmentController::class, 'destroy'])->name('departments.delete');
    
+    Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
+    Route::get('/positions/add', [PositionController::class, 'create'])->name('positions.create');
+    Route::post('/positions/store', [PositionController::class, 'store'])->name('positions.store');
+    Route::get('/positions/edit/{id}', [PositionController::class, 'edit'])->name('positions.edit');
+    Route::post('/positions/update/{id}', [PositionController::class, 'update'])->name('positions.update');
+    Route::delete('/positions/delete/{id}', [PositionController::class, 'destroy'])->name('positions.delete');
+
 
 });

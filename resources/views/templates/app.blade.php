@@ -12,7 +12,7 @@
         <!-- Kiri: Logo SVG dan Master Data -->
         <div class="flex items-center">
             <!-- Gunakan file SVG -->
-            <img src="{{ asset('images/logo.svg') }}" alt="KYT System Logo" class="h-10 w-auto mr-3">
+            <img src="{{ asset('images/logo.png') }}" alt="KYT System Logo" class="h-10 w-auto mr-3">
 
             <!-- Dropdown Master Data -->
             <div class="relative group">
@@ -22,6 +22,7 @@
                     <a href="{{ route('employees.index') }}" class="block px-4 py-2 hover:bg-gray-200">Employees</a>
                     <a href="{{ route('companies.index') }}" class="block px-4 py-2 hover:bg-gray-200">Companies</a>
                     <a href="{{ route('departments.index') }}" class="block px-4 py-2 hover:bg-gray-200">Departments</a>
+                    <a href="{{ route('positions.index') }}" class="block px-4 py-2 hover:bg-gray-200">Position</a>
                 </div>
             </div>
         </div>
