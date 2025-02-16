@@ -34,8 +34,9 @@ Route::middleware('auth')->group(function () {
 
     // Route Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
 
-    // **Master Data: Users**
+    // Master Data: Users
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users.index'); // Halaman daftar users dengan DataTables
         Route::get('/data', [UserController::class, 'getUsersData'])->name('users.data'); // API DataTables
@@ -43,15 +44,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [UserController::class, 'store'])->name('users.store'); // Simpan User
     });
 
-    // // **Master Data: Employee**
-    // Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+       // Master Data: Employees
+       Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+       Route::get('/employees/add', [EmployeeController::class, 'create'])->name('employees.create');
+       Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
+       Route::get('/employees/edit/{id}', [EmployeeController::class, 'edit'])->name('employees.edit');
+       Route::post('/employees/update/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+       Route::delete('/employees/delete/{id}', [EmployeeController::class, 'destroy'])->name('employees.delete');
+   
 
-    // // **Master Data: Company**
-    // Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
-
-    // // **Master Data: Department**
-    // Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
-
-    // // **Profil**
-    // Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 });

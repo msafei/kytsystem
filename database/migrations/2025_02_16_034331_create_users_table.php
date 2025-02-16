@@ -9,15 +9,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id(); // Auto-Increment dari 1
-            $table->char('employee_id', 36)->nullable();
+            $table->id(); // Auto-increment primary key
+            $table->unsignedBigInteger('employee_id')->nullable();
             $table->integer('status_id')->default(1);
             $table->string('username', 50)->unique();
             $table->string('password');
             $table->integer('role')->default(2);
             $table->rememberToken();
             $table->timestamps();
+        
         });
+                
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
