@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('companyType', 50);
-            $table->integer('status')->default(1);
+            $table->integer('companyType', 1);
+            $table->integer('status', 1)->default(1);
             $table->timestamps();
         });
     }

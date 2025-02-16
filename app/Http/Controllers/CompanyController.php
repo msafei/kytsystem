@@ -22,13 +22,19 @@ class CompanyController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'companyType' => 'required|string|max:50',
+            'companyType' => 'required|in:1,2',
+            'status' => 'required|in:0,1',
         ]);
-
-        Company::create($request->all());
-
+    
+        Company::create([
+            'name' => $request->name,
+            'companyType' => $request->companyType,
+            'status' => $request->status,
+        ]);
+    
         return redirect()->route('companies.index')->with('success', 'Company added successfully.');
     }
+    
 
     public function edit($id)
     {

@@ -17,11 +17,11 @@
             <!-- Dropdown Master Data -->
             <div class="relative group">
                 <button class="hover:bg-gray-200 px-4 py-2 rounded">Master Data</button>
-                <div class="absolute hidden group-hover:block bg-white text-black rounded shadow-md w-40">
+                <div class="absolute hidden group-hover:block bg-white text-black rounded shadow-md w-48">
                     <a href="{{ route('users.index') }}" class="block px-4 py-2 hover:bg-gray-200">Users</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200">Employee</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200">Company</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200">Department</a>
+                    <a href="{{ route('employees.index') }}" class="block px-4 py-2 hover:bg-gray-200">Employees</a>
+                    <a href="{{ route('companies.index') }}" class="block px-4 py-2 hover:bg-gray-200">Companies</a>
+                    <a href="{{ route('departments.index') }}" class="block px-4 py-2 hover:bg-gray-200">Departments</a>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 {{ auth()->user()->username }}
             </button>
             <div class="absolute hidden group-hover:block bg-white text-black rounded shadow-md w-40 right-0">
-                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Profil</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Profile</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Logout</button>
