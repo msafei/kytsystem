@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // Auto-Increment dari 1
             $table->char('employee_id', 36)->nullable();
             $table->integer('status_id')->default(1);
             $table->string('username', 50)->unique();
@@ -38,5 +38,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };

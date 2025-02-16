@@ -12,20 +12,21 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    public $incrementing = true; // Auto-Increment
+    protected $keyType = 'int'; // Pastikan ID bertipe integer
 
     protected $fillable = [
-        'id',
         'employee_id',
         'status_id',
         'username',
         'password',
         'role',
+        'remember_token'
     ];
 
     protected $hidden = [
         'password',
+        'remember_token'
     ];
 
     public function setPasswordAttribute($value)
