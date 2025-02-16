@@ -11,9 +11,11 @@ class Employee extends Model
 
     protected $fillable = ['user_id', 'nik', 'name', 'position_id', 'company_id', 'department_id', 'status'];
 
+
+
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class, 'employee_id');
     }
 
     public function position()

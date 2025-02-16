@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Employee;
 use App\Models\User;
 use App\Models\Position;
 use App\Models\Company;
 use App\Models\Department;
+
 
 class EmployeeController extends Controller
 {
@@ -83,4 +85,28 @@ class EmployeeController extends Controller
         Employee::findOrFail($id)->delete();
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }
+
+    public function createUser($id)
+    {
+        $employee = Employee::findOrFail($id);
+
+        if ($employee->user) {
+            return redirect()->route('employees.index')->with('error', 'User already exists for this employee.');
+        }
+
+        $username = strtolower(str_replace(' ', '', $employee->name)) . $employee->nik;
+        $password = Hash::make($username);
+        $role = $employee->position->defaultRole; // Mengambil defaultRole dari tabel position
+
+        $user = User::create([
+            'employee_id' => $employee->id,
+            'username' => $username,
+            'password' => $password,
+            'role' => $role,
+            'status_id' => 1, // Default active
+        ]);
+
+        return redirect()->route('employees.index')->with('success', 'User created successfully. Username: ' . $user->username);
+    }
+
 }

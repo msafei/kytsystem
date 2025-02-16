@@ -16,4 +16,11 @@ class Position extends Model
     {
         return $this->companyType == 1 ? 'Main Company' : 'Outsourcing';
     }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'position_id');
+    }
+    
+
 }
