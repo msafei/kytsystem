@@ -22,15 +22,17 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Cek apakah username ada di database
+        // Ambil user berdasarkan username
         $user = User::where('username', $credentials['username'])->first();
 
+        // Cek apakah user ditemukan dan password benar
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return back()->with('error', 'Username atau password salah.');
         }
 
         // Jika valid, login user
-        Auth::login($user);
+        Auth::login($user, $request->has('remember'));
+
         return redirect()->route('dashboard');
     }
 

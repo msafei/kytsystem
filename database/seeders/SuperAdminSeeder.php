@@ -14,9 +14,10 @@ class SuperAdminSeeder extends Seeder
             'employee_id' => null,
             'status_id' => 1,
             'username' => 'superadmin',
-            'password' => Hash::make('superadmin', ['rounds' => 15, 'memory' => 1024, 'time' => 2]),
+            'password' => Hash::make('superadmin'), // Pastikan Hash::make() hanya dilakukan di sini
             'role' => 1,
             'remember_token' => null
         ]);
     }
 }
+

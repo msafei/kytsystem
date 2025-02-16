@@ -12,8 +12,8 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $primaryKey = 'id';
-    public $incrementing = true; // Auto-Increment
-    protected $keyType = 'int'; // Pastikan ID bertipe integer
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'employee_id',
@@ -29,8 +29,5 @@ class User extends Authenticatable
         'remember_token'
     ];
 
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value, ['rounds' => 15, 'memory' => 1024, 'time' => 2]);
-    }
 }
+

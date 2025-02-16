@@ -24,8 +24,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Routes yang hanya bisa diakses oleh user yang sudah login
 Route::middleware('auth')->group(function () {
     
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Route Dashboard
+    Route::middleware('auth')->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Manajemen User (Tambah User)
     Route::get('/add-user', [UserController::class, 'create'])->name('add-user');
