@@ -44,15 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [UserController::class, 'store'])->name('users.store'); // Simpan User
     });
 
-       // Master Data: Employees
-       Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
-       Route::get('/employees/add', [EmployeeController::class, 'create'])->name('employees.create');
-       Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
-       Route::get('/employees/edit/{id}', [EmployeeController::class, 'edit'])->name('employees.edit');
-       Route::post('/employees/update/{id}', [EmployeeController::class, 'update'])->name('employees.update');
-       Route::delete('/employees/delete/{id}', [EmployeeController::class, 'destroy'])->name('employees.delete');
-
-        // Company Routes
+    // Company Routes
     Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
     Route::get('/companies/add', [CompanyController::class, 'create'])->name('companies.create');
     Route::post('/companies/store', [CompanyController::class, 'store'])->name('companies.store');
@@ -67,7 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/departments/edit/{id}', [DepartmentController::class, 'edit'])->name('departments.edit');
     Route::post('/departments/update/{id}', [DepartmentController::class, 'update'])->name('departments.update');
     Route::delete('/departments/delete/{id}', [DepartmentController::class, 'destroy'])->name('departments.delete');
-   
+    
+    // Master Data: Positions
     Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
     Route::get('/positions/add', [PositionController::class, 'create'])->name('positions.create');
     Route::post('/positions/store', [PositionController::class, 'store'])->name('positions.store');
@@ -75,5 +68,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/positions/update/{id}', [PositionController::class, 'update'])->name('positions.update');
     Route::delete('/positions/delete/{id}', [PositionController::class, 'destroy'])->name('positions.delete');
 
+    // Master Data: Employees
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::get('/employees/add', [EmployeeController::class, 'create'])->name('employees.create');
+    Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
+    Route::get('/employees/edit/{id}', [EmployeeController::class, 'edit'])->name('employees.edit');
+    Route::post('/employees/update/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+    Route::delete('/employees/delete/{id}', [EmployeeController::class, 'destroy'])->name('employees.delete');    
 
 });
