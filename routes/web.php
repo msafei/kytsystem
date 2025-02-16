@@ -3,6 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Redirect root URL ke halaman login
+// Redirect root URL ke halaman login jika belum login
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -23,11 +27,27 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes yang hanya bisa diakses oleh user yang sudah login
 Route::middleware('auth')->group(function () {
-    
-    // Route Dashboard
-    Route::middleware('auth')->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Manajemen User (Tambah User)
-    Route::get('/add-user', [UserController::class, 'create'])->name('add-user');
-    Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+    // Route Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // **Master Data: Users**
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index'); // Halaman daftar users dengan DataTables
+        Route::get('/data', [UserController::class, 'getUsersData'])->name('users.data'); // API DataTables
+        Route::get('/add', [UserController::class, 'create'])->name('users.create'); // Halaman Tambah User
+        Route::post('/store', [UserController::class, 'store'])->name('users.store'); // Simpan User
+    });
+
+    // // **Master Data: Employee**
+    // Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+
+    // // **Master Data: Company**
+    // Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
+
+    // // **Master Data: Department**
+    // Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+
+    // // **Profil**
+    // Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 });
