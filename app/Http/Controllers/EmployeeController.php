@@ -21,12 +21,40 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        $users = User::all();
-        $positions = Position::all();
-        $companies = Company::all();
-        $departments = Department::all();
-        return view('employees.create', compact('users', 'positions', 'companies', 'departments'));
+        $user = auth()->user();
+    
+        // Jika role 0 (full access), tampilkan semua company
+        if ($user->role == 0) {
+            $companies = \App\Models\Company::all();
+        } else {
+            // Jika companyType = 1 (Main Company), tampilkan semua
+            if ($user->company->companyType == 1) {
+                $companies = \App\Models\Company::all();
+            } else {
+                // Jika bukan Main Company, hanya tampilkan company milik user
+                $companies = \App\Models\Company::where('id', $user->company_id)->get();
+            }
+        }
+    
+        $departments = \App\Models\Department::all(); // Departemen akan disaring di front-end
+        $positions = []; // Akan dimuat berdasarkan companyType di front-end
+    
+        return view('employees.create', compact('companies', 'departments', 'positions'));
+    }      
+
+    public function getPositionsByCompany(Request $request)
+    {
+        $company = \App\Models\Company::find($request->company_id);
+
+        if (!$company) {
+            return response()->json([]);
+        }
+
+        $positions = \App\Models\Position::where('companyType', $company->companyType)->get();
+
+        return response()->json($positions);
     }
+
 
     public function store(Request $request)
     {
@@ -85,28 +113,60 @@ class EmployeeController extends Controller
         Employee::findOrFail($id)->delete();
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }
-
-    public function createUser($id)
+    
+    public function generateUsername($name)
     {
-        $employee = Employee::findOrFail($id);
-
-        if ($employee->user) {
+        // Hilangkan spasi dan buat username acak
+        $username = strtolower(str_replace(' ', '', $name));
+        $randomString = substr(md5(mt_rand()), 0, 6);
+        $username = substr($username, 0, 4) . $randomString;
+    
+        // Pastikan panjang username antara 4 - 10 karakter
+        if (strlen($username) < 4) {
+            $username .= mt_rand(1000, 9999);
+        } elseif (strlen($username) > 10) {
+            $username = substr($username, 0, 10);
+        }
+    
+        // Pastikan username unik di database
+        while (\App\Models\User::where('username', $username)->exists()) {
+            $username .= substr(md5(mt_rand()), 0, 1);
+        }
+    
+        return $username;
+    }
+    
+    public function addUser($employee_id)
+    {
+        $employee = \App\Models\Employee::findOrFail($employee_id);
+    
+        // Cek jika user sudah ada
+        if ($employee->user_id) {
             return redirect()->route('employees.index')->with('error', 'User already exists for this employee.');
         }
-
-        $username = strtolower(str_replace(' ', '', $employee->name)) . $employee->nik;
-        $password = Hash::make($username);
-        $role = $employee->position->defaultRole; // Mengambil defaultRole dari tabel position
-
-        $user = User::create([
+    
+        // Ambil posisi employee untuk mendapatkan defaultRole
+        $position = \App\Models\Position::find($employee->position_id);
+        $role = $position ? $position->defaultRole : 2; // Default ke role 2 jika tidak ditemukan
+    
+        // Generate username & password acak
+        $username = $this->generateUsername($employee->name);
+        $password = bcrypt($username);
+    
+        // Buat user baru
+        $user = \App\Models\User::create([
             'employee_id' => $employee->id,
             'username' => $username,
             'password' => $password,
             'role' => $role,
-            'status_id' => 1, // Default active
         ]);
-
-        return redirect()->route('employees.index')->with('success', 'User created successfully. Username: ' . $user->username);
+    
+        // Update Employee dengan User ID yang baru dibuat
+        $employee->update(['user_id' => $user->id]);
+    
+        return redirect()->route('employees.index')->with('success', 'User created successfully.');
     }
+    
+    
 
 }

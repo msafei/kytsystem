@@ -4,7 +4,9 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-    <h2 class="text-2xl font-bold mb-4">Employees List</h2>
+    <h2 class="text-2xl font-bold mb-4">Employee List</h2>
+    
+    <a href="{{ route('employees.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">+ Add Employee</a>
 
     <table class="table-auto w-full mt-4 border">
         <thead>
@@ -15,7 +17,6 @@
                 <th class="border px-4 py-2">Position</th>
                 <th class="border px-4 py-2">Company</th>
                 <th class="border px-4 py-2">Department</th>
-                <th class="border px-4 py-2">Status</th>
                 <th class="border px-4 py-2">Username</th>
                 <th class="border px-4 py-2">Actions</th>
             </tr>
@@ -26,30 +27,26 @@
                 <td class="border px-4 py-2">{{ $employee->id }}</td>
                 <td class="border px-4 py-2">{{ $employee->nik }}</td>
                 <td class="border px-4 py-2">{{ $employee->name }}</td>
-                <td class="border px-4 py-2">{{ $employee->position->name }}</td>
-                <td class="border px-4 py-2">{{ $employee->company->name }}</td>
-                <td class="border px-4 py-2">{{ $employee->department->name }}</td>
+                <td class="border px-4 py-2">{{ $employee->position->name ?? '-' }}</td>
+                <td class="border px-4 py-2">{{ $employee->company->name ?? '-' }}</td>
+                <td class="border px-4 py-2">{{ $employee->department->name ?? '-' }}</td>
                 <td class="border px-4 py-2">
-                    {{ $employee->status == 1 ? 'Active' : 'Pending' }}
+                    {{ $employee->user ? $employee->user->username : '-' }}
                 </td>
                 <td class="border px-4 py-2">
-                    @if($employee->user)
-                        {{ $employee->user->username }}
-                    @else
-                        <span class="text-gray-400">-</span>
-                    @endif
-                </td>
-                <td class="border px-4 py-2">
+                    <!-- Edit Button -->
                     <a href="{{ route('employees.edit', $employee->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</a>
                     
-                    <form action="{{ route('employees.delete', $employee->id) }}" method="POST" class="inline-block">
+                    <!-- Hapus Button -->
+                    <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" class="inline-block">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
                     </form>
 
-                    @if(!$employee->user)
-                    <button onclick="confirmAddUser({{ $employee->id }})" class="bg-blue-500 text-white px-2 py-1 rounded">Add User</button>
+                    <!-- Add User Button (Hanya jika user belum ada) -->
+                    @if(!$employee->user_id)
+                    <button onclick="confirmAddUser({{ $employee->id }})" class="bg-green-500 text-white px-2 py-1 rounded">Add User</button>
                     @endif
                 </td>
             </tr>
@@ -58,11 +55,13 @@
     </table>
 </div>
 
+<!-- Konfirmasi JavaScript -->
 <script>
     function confirmAddUser(employeeId) {
         if (confirm("Are you sure you want to create a user for this employee?")) {
-            window.location.href = "/employees/" + employeeId + "/create-user";
+            window.location.href = "/employees/" + employeeId + "/add-user";
         }
     }
 </script>
+
 @endsection
