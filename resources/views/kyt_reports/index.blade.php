@@ -10,18 +10,19 @@
     <table class="w-full mt-4 border">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Project Title</th>
+                <th>Working Time</th>
                 <th>Company</th>
-                <th>Project</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($kytReports as $report)
             <tr>
-                <td>{{ $report->id }}</td>
-                <td>{{ $report->company->name }}</td>
                 <td>{{ $report->projectTitle }}</td>
+                <td>{{ $report->workingStart }} - {{ $report->workingEnd }}</td>
+                <td>{{ $report->company->name }}</td>
+               
                 <td>
                     <a href="{{ route('kyt_reports.edit', $report) }}" class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</a>
                     <form action="{{ route('kyt_reports.destroy', $report) }}" method="POST" class="inline">

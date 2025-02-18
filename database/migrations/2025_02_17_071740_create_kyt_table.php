@@ -5,22 +5,38 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up(): void
+    public function up()
     {
         Schema::create('kyt_reports', function (Blueprint $table) {
-            $table->id(); // Auto-increment ID
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relasi ke tabel users
-            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade'); // Relasi ke tabel companies
-            $table->foreignId('departement_id')->nullable()->constrained('departments')->onDelete('set null'); // Relasi ke tabel departments (nullable)
-            $table->string('projectTitle')->nullable(); // Nama project
-            $table->json('instructors')->nullable(); // Data instructor dalam bentuk JSON
-            $table->json('attendants')->nullable(); // Data attendant dalam bentuk JSON
+            $table->id(); // Primary Key (Auto-increment)
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // User yang membuat laporan
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade'); // Perusahaan
+            $table->foreignId('departement_id')->nullable()->constrained('departments')->onDelete('set null'); // Departemen
+            
+            $table->date('date'); // Tanggal laporan
+            $table->string('projectTitle'); // Nama proyek
+            $table->time('workingStart'); // Jam kerja mulai
+            $table->time('workingEnd'); // Jam kerja selesai
+
+            $table->json('instructors'); // Menyimpan array instruktur (NIK)
+            $table->json('attendants'); // Menyimpan array peserta (NIK)
+
+            $table->text('potentialDangerous')->nullable();
+            $table->text('mostDanger')->nullable();
+            $table->text('countermeasures')->nullable();
+            $table->text('keyWord')->nullable();
+
+            $table->unsignedBigInteger('reviewedBy')->nullable();
+            $table->unsignedBigInteger('approvedBy1')->nullable();
+            $table->unsignedBigInteger('approvedBy2')->nullable();
+
             $table->tinyInteger('status')->default(0); // 0 = Pending, 1 = Checked, 2 = Reviewed, 3 = Approved
-            $table->timestamps(); // Created_at & Updated_at
+
+            $table->timestamps();
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('kyt_reports');
     }

@@ -19,6 +19,12 @@
     <form action="{{ route('kyt_reports.store') }}" method="POST" id="kytForm">
         @csrf
 
+        <!-- Tanggal Hari Ini -->
+        <div>
+            <label>Date</label>
+            <input type="date" name="date" value="{{ date('Y-m-d') }}" class="border w-full p-2 rounded" readonly>
+        </div>        
+
         <!-- Project Title -->
         <div>
             <label>Project Title</label>
@@ -46,6 +52,21 @@
                 @endforeach
             </select>
         </div>
+
+        <!-- Working Time -->
+        <div id="working_time">
+        <label>Working Time</label>            
+        <div class="flex space-x-4">
+            <div>
+                <label>Start</label>
+                <input type="time" name="workingStart" class="border p-2 rounded">
+            </div>
+            <div>
+                <label>End</label>
+                <input type="time" name="workingEnd" class="border p-2 rounded">
+            </div>
+        </div>
+        </div>        
 
         <!-- Instructor Selection -->
         <div>
@@ -89,18 +110,39 @@
             </table>
         </div>
 
-        <!-- Hidden Inputs untuk Instructors dan Attendants (Ditampilkan di Form) -->
+
+        <!-- Potential Dangerous -->
         <div>
-            <label>Instructor Data (Array):</label>
-            <textarea id="instructors_data_display" class="border w-full p-2 rounded bg-gray-100" readonly></textarea>
-            <input type="hidden" name="instructors" id="instructors_data">
+            <label>Potential Dangerous</label>
+            <textarea name="potentialDangerous" class="border w-full p-2 rounded"></textarea>
         </div>
 
+        <!-- Most Dangerous -->
         <div>
-            <label>Attendant Data (Array):</label>
-            <textarea id="attendants_data_display" class="border w-full p-2 rounded bg-gray-100" readonly></textarea>
-            <input type="hidden" name="attendants" id="attendants_data">
+            <label>Most Dangerous</label>
+            <textarea name="mostDanger" class="border w-full p-2 rounded"></textarea>
         </div>
+
+        <!-- Countermeasures -->
+        <div>
+            <label>Countermeasures</label>
+            <textarea name="countermeasures" class="border w-full p-2 rounded"></textarea>
+        </div>
+
+        <!-- Keywords -->
+        <div>
+            <label>Keywords</label>
+            <textarea name="keyWord" class="border w-full p-2 rounded"></textarea>
+        </div>        
+
+                <!-- Form Hidden -->
+                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                <input type="hidden" name="reviewedBy" value="">
+                <input type="hidden" name="approvedBy1" value="">
+                <input type="hidden" name="approvedBy2" value="">
+                <input type="hidden" name="status" value="0">
+                <input type="hidden" name="instructors" id="instructors_data">
+                <input type="hidden" name="attendants" id="attendants_data">
 
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">Save</button>
     </form>

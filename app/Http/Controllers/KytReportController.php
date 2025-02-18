@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\KytReport;
 use App\Models\Company;
-use App\Models\Employee;
 use App\Models\Department;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,18 +19,16 @@ class KytReportController extends Controller
 
     public function create()
     {
-        $user = auth()->user();
-    
-        // Ambil semua company jika user role = 0 atau companyType = 1
-        if ($user->role == 0 || (isset($user->employee) && $user->employee->company->companyType == 1)) {
+        $user = Auth::user();
+
+        // Menentukan daftar perusahaan yang bisa dipilih user
+        if ($user->role == 0 || ($user->employee && $user->employee->company->companyType == 1)) {
             $companies = Company::all();
         } else {
             $companies = Company::where('id', $user->employee->company_id)->get();
         }
 
-        // Ambil semua departemen
         $departments = Department::all();
-
         return view('kyt_reports.create', compact('companies', 'departments'));
     }
 
@@ -39,82 +37,94 @@ class KytReportController extends Controller
         $request->validate([
             'company_id' => 'required|exists:companies,id',
             'departement_id' => 'nullable|exists:departments,id',
+            'date' => 'required|date',
             'projectTitle' => 'required|string|max:255',
-            'instructors' => 'required|string', // JSON string dari form
-            'attendants' => 'required|string', // JSON string dari form
+            'workingStart' => 'required',
+            'workingEnd' => 'required',
+            'instructors' => 'required|json',
+            'attendants' => 'required|json',
+            'potentialDangerous' => 'nullable|string',
+            'mostDanger' => 'nullable|string',
+            'countermeasures' => 'nullable|string',
+            'keyWord' => 'nullable|string',
         ]);
 
         try {
-            // Decode JSON dari input form
-            $instructors = json_decode($request->input('instructors'), true);
-            $attendants = json_decode($request->input('attendants'), true);
-
-            // Pastikan instructors dan attendants dalam format array
-            if (!is_array($instructors) || !is_array($attendants)) {
-                return redirect()->back()->with('error', 'Format data instructors dan attendants tidak valid.')->withInput();
-            }
-
-            // Simpan data KYT Report
             KytReport::create([
-                'user_id' => auth()->id(),
-                'company_id' => $request->input('company_id'),
-                'departement_id' => $request->input('departement_id') ?? null,
-                'projectTitle' => $request->input('projectTitle'),
-                'instructors' => $instructors, // Simpan dalam format array (otomatis dikonversi ke JSON)
-                'attendants' => $attendants, // Simpan dalam format array (otomatis dikonversi ke JSON)
+                'user_id' => Auth::id(),
+                'company_id' => $request->company_id,
+                'departement_id' => $request->departement_id ?? null,
+                'date' => $request->date,
+                'projectTitle' => $request->projectTitle,
+                'workingStart' => $request->workingStart,
+                'workingEnd' => $request->workingEnd,
+                'instructors' => json_decode($request->instructors, true),
+                'attendants' => json_decode($request->attendants, true),
+                'potentialDangerous' => $request->potentialDangerous,
+                'mostDanger' => $request->mostDanger,
+                'countermeasures' => $request->countermeasures,
+                'keyWord' => $request->keyWord,
                 'status' => 0, // Pending
             ]);
 
             return redirect()->route('kyt_reports.index')->with('success', 'KYT Report berhasil disimpan.');
         } catch (\Exception $e) {
-            \Log::error('Error saving KYT Report: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan KYT Report.')->withInput();
         }
     }
 
     public function edit(KytReport $kytReport)
     {
-        $user = Auth::user();
+        $companies = Company::all();
+        $departments = Department::all();
 
-        $companies = ($user->role == 0 || ($user->employee && $user->employee->company->companyType == 1))
-            ? Company::all()
-            : Company::where('id', $user->employee->company_id)->get();
-
-        return view('kyt_reports.edit', compact('kytReport', 'companies'));
+        return view('kyt_reports.edit', compact('kytReport', 'companies', 'departments'));
     }
 
     public function update(Request $request, KytReport $kytReport)
     {
         $request->validate([
             'company_id' => 'required|exists:companies,id',
+            'departement_id' => 'nullable|exists:departments,id',
+            'date' => 'required|date',
             'projectTitle' => 'required|string|max:255',
-            'instructors' => 'required|string',
-            'attendants' => 'required|string',
+            'workingStart' => 'required',
+            'workingEnd' => 'required',
+            'instructors' => 'required|json',
+            'attendants' => 'required|json',
+            'potentialDangerous' => 'nullable|string',
+            'mostDanger' => 'nullable|string',
+            'countermeasures' => 'nullable|string',
+            'keyWord' => 'nullable|string',
         ]);
-
-        $instructors = json_decode($request->input('instructors'), true);
-        $attendants = json_decode($request->input('attendants'), true);
-
-        if (!is_array($instructors) || !is_array($attendants)) {
-            return redirect()->back()->with('error', 'Format data instructors dan attendants tidak valid.')->withInput();
-        }
 
         $kytReport->update([
             'company_id' => $request->company_id,
+            'departement_id' => $request->departement_id ?? null,
+            'date' => $request->date,
             'projectTitle' => $request->projectTitle,
-            'instructors' => $instructors,
-            'attendants' => $attendants,
+            'workingStart' => $request->workingStart,
+            'workingEnd' => $request->workingEnd,
+            'instructors' => json_decode($request->instructors, true),
+            'attendants' => json_decode($request->attendants, true),
+            'potentialDangerous' => $request->potentialDangerous,
+            'mostDanger' => $request->mostDanger,
+            'countermeasures' => $request->countermeasures,
+            'keyWord' => $request->keyWord,
         ]);
 
-        return redirect()->route('kyt_reports.index')->with('success', 'KYT Report updated successfully.');
+        return redirect()->route('kyt_reports.index')->with('success', 'KYT Report berhasil diperbarui.');
     }
 
     public function destroy(KytReport $kytReport)
     {
         $kytReport->delete();
-        return redirect()->route('kyt_reports.index')->with('success', 'KYT Report deleted successfully.');
+        return redirect()->route('kyt_reports.index')->with('success', 'KYT Report berhasil dihapus.');
     }
 
+    /**
+     * Mengambil daftar employees berdasarkan company_id untuk dropdown Instructor dan Attendant.
+     */
     public function getEmployeesByCompany($company_id)
     {
         $employees = Employee::where('company_id', $company_id)->get(['id', 'nik', 'name']);
