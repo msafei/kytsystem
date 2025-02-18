@@ -61,13 +61,11 @@
                     <tr>
                         <th>No</th>
                         <th>NIK</th>
-                        <th>Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="instructor_table"></tbody>
             </table>
-            <input type="hidden" name="instructors" id="instructors_data">
         </div>
 
         <!-- Attendant Selection -->
@@ -84,12 +82,23 @@
                     <tr>
                         <th>No</th>
                         <th>NIK</th>
-                        <th>Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="attendant_table"></tbody>
             </table>
+        </div>
+
+        <!-- Hidden Inputs untuk Instructors dan Attendants (Ditampilkan di Form) -->
+        <div>
+            <label>Instructor Data (Array):</label>
+            <textarea id="instructors_data_display" class="border w-full p-2 rounded bg-gray-100" readonly></textarea>
+            <input type="hidden" name="instructors" id="instructors_data">
+        </div>
+
+        <div>
+            <label>Attendant Data (Array):</label>
+            <textarea id="attendants_data_display" class="border w-full p-2 rounded bg-gray-100" readonly></textarea>
             <input type="hidden" name="attendants" id="attendants_data">
         </div>
 
@@ -114,22 +123,17 @@ document.getElementById("company_id").addEventListener("change", function() {
             attendantSelect.innerHTML = '<option value="" disabled selected>-- Select Attendant --</option>';
 
             data.forEach(employee => {
-                let option = `<option value="${employee.nik}" data-name="${employee.name}">${employee.name}</option>`;
+                let option = `<option value="${employee.nik}">${employee.name}</option>`;
                 instructorSelect.innerHTML += option;
                 attendantSelect.innerHTML += option;
             });
+
+            document.getElementById("add_instructor").disabled = false;
+            document.getElementById("add_attendant").disabled = false;
         });
 });
 
-// Enable/Disable Add Buttons
-document.getElementById("instructor_select").addEventListener("change", function () {
-    document.getElementById("add_instructor").disabled = !this.value;
-});
-document.getElementById("attendant_select").addEventListener("change", function () {
-    document.getElementById("add_attendant").disabled = !this.value;
-});
-
-// Array untuk menyimpan data instructor dan attendant
+// Array untuk menyimpan data instructor dan attendant (hanya NIK)
 let instructorData = [];
 let attendantData = [];
 
@@ -138,20 +142,22 @@ document.getElementById("add_instructor").addEventListener("click", function() {
     if (instructorData.length < 2) {
         let select = document.getElementById("instructor_select");
         let nik = select.value;
-        let name = select.options[select.selectedIndex].dataset.name;
+
+        if (!nik || instructorData.includes(nik)) return;
 
         let table = document.getElementById("instructor_table");
         let row = table.insertRow();
-        row.innerHTML = `<td>${instructorData.length + 1}</td><td>${nik}</td><td>${name}</td><td><button type="button" onclick="removeInstructor(${instructorData.length})">X</button></td>`;
+        row.innerHTML = `<td>${instructorData.length + 1}</td><td>${nik}</td>
+                         <td><button type="button" onclick="removeInstructor(${instructorData.length})">X</button></td>`;
         
         instructorData.push(nik);
-        document.getElementById("instructors_data").value = JSON.stringify(instructorData);
+        updateInstructorData();
     }
 });
 
 function removeInstructor(index) {
     instructorData.splice(index, 1);
-    document.getElementById("instructors_data").value = JSON.stringify(instructorData);
+    updateInstructorData();
     document.getElementById("instructor_table").deleteRow(index);
 }
 
@@ -160,25 +166,38 @@ document.getElementById("add_attendant").addEventListener("click", function() {
     if (attendantData.length < 16) {
         let select = document.getElementById("attendant_select");
         let nik = select.value;
-        let name = select.options[select.selectedIndex].dataset.name;
+
+        if (!nik || attendantData.includes(nik)) return;
 
         let table = document.getElementById("attendant_table");
         let row = table.insertRow();
-        row.innerHTML = `<td>${attendantData.length + 1}</td><td>${nik}</td><td>${name}</td><td><button type="button" onclick="removeAttendant(${attendantData.length})">X</button></td>`;
+        row.innerHTML = `<td>${attendantData.length + 1}</td><td>${nik}</td>
+                         <td><button type="button" onclick="removeAttendant(${attendantData.length})">X</button></td>`;
         
         attendantData.push(nik);
-        document.getElementById("attendants_data").value = JSON.stringify(attendantData);
+        updateAttendantData();
     }
 });
 
 function removeAttendant(index) {
     attendantData.splice(index, 1);
-    document.getElementById("attendants_data").value = JSON.stringify(attendantData);
+    updateAttendantData();
     document.getElementById("attendant_table").deleteRow(index);
 }
 
+// Update Input Hidden dan Tampilkan di Form
+function updateInstructorData() {
+    document.getElementById("instructors_data").value = JSON.stringify(instructorData);
+    document.getElementById("instructors_data_display").value = JSON.stringify(instructorData, null, 2);
+}
+
+function updateAttendantData() {
+    document.getElementById("attendants_data").value = JSON.stringify(attendantData);
+    document.getElementById("attendants_data_display").value = JSON.stringify(attendantData, null, 2);
+}
+
 // Event listener sebelum submit form
-document.getElementById("kytForm").addEventListener("submit", function() {
+document.getElementById("kytForm").addEventListener("submit", function(event) {
     document.getElementById("instructors_data").value = JSON.stringify(instructorData);
     document.getElementById("attendants_data").value = JSON.stringify(attendantData);
 });
