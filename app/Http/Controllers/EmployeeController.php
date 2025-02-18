@@ -63,7 +63,6 @@ class EmployeeController extends Controller
             'name' => 'required|string|max:100',
             'position_id' => 'required|exists:positions,id',
             'company_id' => 'required|exists:companies,id',
-            'department_id' => 'required|exists:departments,id',
         ]);
     
         // Cek role user untuk menentukan status
@@ -98,7 +97,6 @@ class EmployeeController extends Controller
             'name' => 'required|string|max:100',
             'position_id' => 'required|exists:positions,id',
             'company_id' => 'required|exists:companies,id',
-            'department_id' => 'required|exists:departments,id',
             'status' => 'required|in:0,1',
         ]);
 
