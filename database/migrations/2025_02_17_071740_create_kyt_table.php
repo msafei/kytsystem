@@ -15,6 +15,7 @@ return new class extends Migration {
             
             $table->date('date'); // Tanggal laporan
             $table->string('projectTitle'); // Nama proyek
+            $table->integer('shift')->nullable();
             $table->time('workingStart'); // Jam kerja mulai
             $table->time('workingEnd'); // Jam kerja selesai
 
@@ -24,7 +25,7 @@ return new class extends Migration {
             $table->text('potentialDangerous')->nullable();
             $table->text('mostDanger')->nullable();
             $table->text('countermeasures')->nullable();
-            $table->text('keyWord')->nullable();
+            $table->text('{keyWord}')->nullable();
 
             $table->unsignedBigInteger('reviewedBy')->nullable();
             $table->unsignedBigInteger('approvedBy1')->nullable();

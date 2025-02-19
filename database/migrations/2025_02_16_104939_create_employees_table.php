@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('position_id')->constrained('positions')->onDelete('cascade');
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
-            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
+            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('cascade');
             $table->tinyInteger('status')->default(1); // 1 = Active, 0 = Inactive
             $table->timestamps();
         });

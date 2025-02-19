@@ -11,7 +11,7 @@ class KytReport extends Model
 
     protected $fillable = [
         'user_id', 'company_id', 'departement_id', 'date', 'projectTitle', 'workingStart', 'workingEnd',
-        'instructors', 'attendants', 'potentialDangerous', 'mostDanger', 'countermeasures', 'keyWord',
+        'shift','instructors', 'attendants', 'potentialDangerous', 'mostDanger', 'countermeasures', 'keyWord',
         'reviewedBy', 'approvedBy1', 'approvedBy2', 'status'
     ];
 

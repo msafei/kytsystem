@@ -19,17 +19,11 @@
     <form action="{{ route('kyt_reports.store') }}" method="POST" id="kytForm">
         @csrf
 
-        <!-- Tanggal Hari Ini -->
+        <!-- Date -->
         <div>
             <label>Date</label>
-            <input type="date" name="date" value="{{ date('Y-m-d') }}" class="border w-full p-2 rounded" readonly>
+            <input type="date" name="date" value="{{ date('Y-m-d') }}" class="border w-full p-2 rounded bg-gray-200" readonly>
         </div>        
-
-        <!-- Project Title -->
-        <div>
-            <label>Project Title</label>
-            <input type="text" name="projectTitle" class="border w-full p-2 rounded" required>
-        </div>
 
         <!-- Company Selection -->
         <div>
@@ -40,10 +34,16 @@
                     <option value="{{ $company->id }}" data-company-type="{{ $company->companyType }}">{{ $company->name }}</option>
                 @endforeach
             </select>
+        </div>        
+
+        <!-- Project Title -->
+        <div>
+            <label>Project Title</label>
+            <input type="text" name="projectTitle" class="border w-full p-2 rounded" required>
         </div>
 
         <!-- Department Selection -->
-        <div id="department_section">
+        <div>
             <label>Department</label>
             <select name="departement_id" id="departement_id" class="border w-full p-2 rounded">
                 <option value="" disabled selected>-- Select Department --</option>
@@ -53,19 +53,30 @@
             </select>
         </div>
 
-        <!-- Working Time -->
-        <div id="working_time">
-        <label>Working Time</label>            
-        <div class="flex space-x-4">
-            <div>
-                <label>Start</label>
-                <input type="time" name="workingStart" class="border p-2 rounded">
-            </div>
-            <div>
-                <label>End</label>
-                <input type="time" name="workingEnd" class="border p-2 rounded">
-            </div>
+        <!-- Shift Selection -->
+        <div>
+            <label>Shift</label>
+            <select name="shift" class="border w-full p-2 rounded">
+                <option value="" selected>-- Select Shift --</option>
+                <option value="1">Shift 1</option>
+                <option value="2">Shift 2</option>
+                <option value="3">Shift 3</option>
+            </select>
         </div>
+        
+        <!-- Working Time -->
+        <div>
+            <label>Working Time</label>            
+            <div class="flex space-x-4">
+                <div>
+                    <label>Start</label>
+                    <input type="time" name="workingStart" class="border p-2 rounded">
+                </div>
+                <div>
+                    <label>End</label>
+                    <input type="time" name="workingEnd" class="border p-2 rounded">
+                </div>
+            </div>
         </div>        
 
         <!-- Instructor Selection -->
@@ -75,13 +86,15 @@
                 <select id="instructor_select" class="border p-2 rounded">
                     <option value="" disabled selected>-- Select Instructor --</option>
                 </select>
-                <button type="button" id="add_instructor" class="bg-green-500 text-white px-3 py-1 rounded" disabled>+</button>
+                <button type="button" id="add_instructor" class="bg-green-500 text-white px-3 py-1 rounded">+</button>
             </div>
             <table class="w-full mt-2 border">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>NIK</th>
+                        <th>Name</th>
+                        <th>Position</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -96,13 +109,15 @@
                 <select id="attendant_select" class="border p-2 rounded">
                     <option value="" disabled selected>-- Select Attendant --</option>
                 </select>
-                <button type="button" id="add_attendant" class="bg-green-500 text-white px-3 py-1 rounded" disabled>+</button>
+                <button type="button" id="add_attendant" class="bg-green-500 text-white px-3 py-1 rounded">+</button>
             </div>
             <table class="w-full mt-2 border">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>NIK</th>
+                        <th>Name</th>
+                        <th>Position</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -110,138 +125,126 @@
             </table>
         </div>
 
-
-        <!-- Potential Dangerous -->
-        <div>
-            <label>Potential Dangerous</label>
-            <textarea name="potentialDangerous" class="border w-full p-2 rounded"></textarea>
-        </div>
-
-        <!-- Most Dangerous -->
-        <div>
-            <label>Most Dangerous</label>
-            <textarea name="mostDanger" class="border w-full p-2 rounded"></textarea>
-        </div>
-
-        <!-- Countermeasures -->
-        <div>
-            <label>Countermeasures</label>
-            <textarea name="countermeasures" class="border w-full p-2 rounded"></textarea>
-        </div>
-
-        <!-- Keywords -->
-        <div>
-            <label>Keywords</label>
-            <textarea name="keyWord" class="border w-full p-2 rounded"></textarea>
-        </div>        
-
-                <!-- Form Hidden -->
-                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                <input type="hidden" name="reviewedBy" value="">
-                <input type="hidden" name="approvedBy1" value="">
-                <input type="hidden" name="approvedBy2" value="">
-                <input type="hidden" name="status" value="0">
-                <input type="hidden" name="instructors" id="instructors_data">
-                <input type="hidden" name="attendants" id="attendants_data">
+                <!-- Potential Dangerous -->
+                <div>
+                    <label>Potential Dangerous</label>
+                    <textarea name="potentialDangerous" class="border w-full p-2 rounded"></textarea>
+                </div>
+        
+                <!-- Most Dangerous -->
+                <div>
+                    <label>Most Dangerous</label>
+                    <textarea name="mostDanger" class="border w-full p-2 rounded"></textarea>
+                </div>
+        
+                <!-- Countermeasures -->
+                <div>
+                    <label>Countermeasures</label>
+                    <textarea name="countermeasures" class="border w-full p-2 rounded"></textarea>
+                </div>
+        
+                <!-- Keywords -->
+                <div>
+                    <label>Keywords</label>
+                    <textarea name="keyWord" class="border w-full p-2 rounded"></textarea>
+                </div>        
+        
+                        <!-- Form Hidden -->
+                        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                        <input type="hidden" name="reviewedBy" value="">
+                        <input type="hidden" name="approvedBy1" value="">
+                        <input type="hidden" name="approvedBy2" value="">
+                        <input type="hidden" name="status" value="0">
+                        <input  name="instructors" id="instructors_data">
+                        <input  name="attendants" id="attendants_data">
 
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">Save</button>
     </form>
 </div>
 
 <script>
-document.getElementById("company_id").addEventListener("change", function() {
-    let companyId = this.value;
-    let companyType = this.options[this.selectedIndex].dataset.companyType;
-
-    document.getElementById("departement_id").disabled = companyType !== "1";
-
-    fetch(`/kyt_reports/get-employees/${companyId}`)
-        .then(response => response.json())
-        .then(data => {
-            let instructorSelect = document.getElementById("instructor_select");
-            let attendantSelect = document.getElementById("attendant_select");
-
-            instructorSelect.innerHTML = '<option value="" disabled selected>-- Select Instructor --</option>';
-            attendantSelect.innerHTML = '<option value="" disabled selected>-- Select Attendant --</option>';
-
-            data.forEach(employee => {
-                let option = `<option value="${employee.nik}">${employee.name}</option>`;
-                instructorSelect.innerHTML += option;
-                attendantSelect.innerHTML += option;
-            });
-
-            document.getElementById("add_instructor").disabled = false;
-            document.getElementById("add_attendant").disabled = false;
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("company_id").addEventListener("change", function() {
+            fetch(`/kyt_reports/get-employees/${this.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    let instructorSelect = document.getElementById("instructor_select");
+                    let attendantSelect = document.getElementById("attendant_select");
+    
+                    instructorSelect.innerHTML = '<option value="" disabled selected>-- Select Instructor --</option>';
+                    attendantSelect.innerHTML = '<option value="" disabled selected>-- Select Attendant --</option>';
+    
+                    data.forEach(employee => {
+                        let option = `<option value="${employee.nik}" data-name="${employee.name}" data-position="${employee.position || '-'}">
+                                        ${employee.name}
+                                      </option>`;
+                        instructorSelect.innerHTML += option;
+                        attendantSelect.innerHTML += option;
+                    });
+                });
         });
-});
-
-// Array untuk menyimpan data instructor dan attendant (hanya NIK)
-let instructorData = [];
-let attendantData = [];
-
-// Tambah Instructor
-document.getElementById("add_instructor").addEventListener("click", function() {
-    if (instructorData.length < 2) {
-        let select = document.getElementById("instructor_select");
-        let nik = select.value;
-
-        if (!nik || instructorData.includes(nik)) return;
-
-        let table = document.getElementById("instructor_table");
-        let row = table.insertRow();
-        row.innerHTML = `<td>${instructorData.length + 1}</td><td>${nik}</td>
-                         <td><button type="button" onclick="removeInstructor(${instructorData.length})">X</button></td>`;
-        
-        instructorData.push(nik);
-        updateInstructorData();
-    }
-});
-
-function removeInstructor(index) {
-    instructorData.splice(index, 1);
-    updateInstructorData();
-    document.getElementById("instructor_table").deleteRow(index);
-}
-
-// Tambah Attendant
-document.getElementById("add_attendant").addEventListener("click", function() {
-    if (attendantData.length < 16) {
-        let select = document.getElementById("attendant_select");
-        let nik = select.value;
-
-        if (!nik || attendantData.includes(nik)) return;
-
-        let table = document.getElementById("attendant_table");
-        let row = table.insertRow();
-        row.innerHTML = `<td>${attendantData.length + 1}</td><td>${nik}</td>
-                         <td><button type="button" onclick="removeAttendant(${attendantData.length})">X</button></td>`;
-        
-        attendantData.push(nik);
-        updateAttendantData();
-    }
-});
-
-function removeAttendant(index) {
-    attendantData.splice(index, 1);
-    updateAttendantData();
-    document.getElementById("attendant_table").deleteRow(index);
-}
-
-// Update Input Hidden dan Tampilkan di Form
-function updateInstructorData() {
-    document.getElementById("instructors_data").value = JSON.stringify(instructorData);
-    document.getElementById("instructors_data_display").value = JSON.stringify(instructorData, null, 2);
-}
-
-function updateAttendantData() {
-    document.getElementById("attendants_data").value = JSON.stringify(attendantData);
-    document.getElementById("attendants_data_display").value = JSON.stringify(attendantData, null, 2);
-}
-
-// Event listener sebelum submit form
-document.getElementById("kytForm").addEventListener("submit", function(event) {
-    document.getElementById("instructors_data").value = JSON.stringify(instructorData);
-    document.getElementById("attendants_data").value = JSON.stringify(attendantData);
-});
-</script>
-@endsection
+    
+        let instructorData = [];
+        let attendantData = [];
+    
+        function updateTable(tableId, dataArray, inputId, maxLimit, addButtonId) {
+            let table = document.getElementById(tableId);
+            table.innerHTML = "";
+            dataArray.forEach((employee, index) => {
+                let row = table.insertRow();
+                row.innerHTML = `<td>${index + 1}</td>
+                                 <td>${employee.nik}</td>
+                                 <td>${employee.name}</td>
+                                 <td>${employee.position}</td>
+                                 <td><button type="button" class="remove-btn" data-index="${index}">X</button></td>`;
+            });
+    
+            // Simpan hanya NIK di input hidden
+            document.getElementById(inputId).value = JSON.stringify(dataArray.map(e => e.nik));
+    
+            // Disable tombol jika jumlah data sudah mencapai batas
+            document.getElementById(addButtonId).disabled = dataArray.length >= maxLimit;
+        }
+    
+        document.getElementById("add_instructor").addEventListener("click", function() {
+            let select = document.getElementById("instructor_select");
+            let nik = select.value;
+            let name = select.options[select.selectedIndex].dataset.name;
+            let position = select.options[select.selectedIndex].dataset.position;
+    
+            if (nik && !instructorData.find(item => item.nik === nik)) {
+                instructorData.push({ nik, name, position });
+                updateTable("instructor_table", instructorData, "instructors_data", 2, "add_instructor");
+            }
+        });
+    
+        document.getElementById("add_attendant").addEventListener("click", function() {
+            let select = document.getElementById("attendant_select");
+            let nik = select.value;
+            let name = select.options[select.selectedIndex].dataset.name;
+            let position = select.options[select.selectedIndex].dataset.position;
+    
+            if (nik && !attendantData.find(item => item.nik === nik)) {
+                attendantData.push({ nik, name, position });
+                updateTable("attendant_table", attendantData, "attendants_data", 16, "add_attendant");
+            }
+        });
+    
+        document.getElementById("instructor_table").addEventListener("click", function(event) {
+            if (event.target.classList.contains("remove-btn")) {
+                let index = event.target.getAttribute("data-index");
+                instructorData.splice(index, 1);
+                updateTable("instructor_table", instructorData, "instructors_data", 2, "add_instructor");
+            }
+        });
+    
+        document.getElementById("attendant_table").addEventListener("click", function(event) {
+            if (event.target.classList.contains("remove-btn")) {
+                let index = event.target.getAttribute("data-index");
+                attendantData.splice(index, 1);
+                updateTable("attendant_table", attendantData, "attendants_data", 16, "add_attendant");
+            }
+        });
+    });
+    </script>       
+    @endsection

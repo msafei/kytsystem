@@ -39,6 +39,7 @@ class KytReportController extends Controller
             'departement_id' => 'nullable|exists:departments,id',
             'date' => 'required|date',
             'projectTitle' => 'required|string|max:255',
+            'shift' => 'nullable|integer|in:1,2,3',
             'workingStart' => 'required',
             'workingEnd' => 'required',
             'instructors' => 'required|json',
@@ -56,6 +57,7 @@ class KytReportController extends Controller
                 'departement_id' => $request->departement_id ?? null,
                 'date' => $request->date,
                 'projectTitle' => $request->projectTitle,
+                'shift' => $request->shift,
                 'workingStart' => $request->workingStart,
                 'workingEnd' => $request->workingEnd,
                 'instructors' => json_decode($request->instructors, true),
@@ -127,7 +129,12 @@ class KytReportController extends Controller
      */
     public function getEmployeesByCompany($company_id)
     {
-        $employees = Employee::where('company_id', $company_id)->get(['id', 'nik', 'name']);
+        $employees = Employee::where('company_id', $company_id)
+            ->leftJoin('positions', 'employees.position_id', '=', 'positions.id')
+            ->select('employees.id', 'employees.nik', 'employees.name', 'positions.name as position')
+            ->get();
+    
         return response()->json($employees);
     }
+    
 }

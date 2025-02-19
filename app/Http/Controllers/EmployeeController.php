@@ -22,25 +22,25 @@ class EmployeeController extends Controller
     public function create()
     {
         $user = auth()->user();
-    
-        // Jika role 0 (full access), tampilkan semua company
-        if ($user->role == 0) {
-            $companies = \App\Models\Company::all();
-        } else {
-            // Jika companyType = 1 (Main Company), tampilkan semua
-            if ($user->company->companyType == 1) {
+        
+        // Pastikan user memiliki employee sebelum mengakses company
+        if ($user->employee && $user->employee->company) {
+            if ($user->employee->company->companyType == 1) {
                 $companies = \App\Models\Company::all();
             } else {
-                // Jika bukan Main Company, hanya tampilkan company milik user
-                $companies = \App\Models\Company::where('id', $user->company_id)->get();
+                $companies = \App\Models\Company::where('id', $user->employee->company_id)->get();
             }
+        } else {
+            // Jika tidak memiliki perusahaan, kosongkan daftar companies
+            $companies = collect();
         }
     
-        $departments = \App\Models\Department::all(); // Departemen akan disaring di front-end
-        $positions = []; // Akan dimuat berdasarkan companyType di front-end
+        $departments = \App\Models\Department::all();
+        $positions = [];
     
         return view('employees.create', compact('companies', 'departments', 'positions'));
-    }      
+    }
+        
 
     public function getPositionsByCompany(Request $request)
     {
@@ -71,7 +71,7 @@ class EmployeeController extends Controller
     
         if ($user->role == 1) {
             $status = 1;
-        } elseif ($user->employee_id && $user->company->companyType == 2) {
+        } elseif ($user->employee_id && $user->employee->company->companyType == 2) {
             $status = 2; // Pending
         }
     
