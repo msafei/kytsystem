@@ -100,7 +100,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/{kytReport}/edit', [KytReportController::class, 'edit'])->name('kyt_reports.edit');
         Route::put('/{kytReport}/update', [KytReportController::class, 'update'])->name('kyt_reports.update');
         Route::delete('/{kytReport}/delete', [KytReportController::class, 'destroy'])->name('kyt_reports.destroy');
+        
+        // Route untuk generate dan view PDF
+        Route::get('/{kytReport}/view', [KytReportController::class, 'view'])->name('kyt_reports.view');
+        
+        // API untuk mendapatkan daftar employees berdasarkan company_id
         Route::get('/get-employees/{company_id}', [KytReportController::class, 'getEmployeesByCompany'])->name('kyt_reports.getEmployees');
     });
+    
 
 });

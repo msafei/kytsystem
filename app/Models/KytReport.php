@@ -10,7 +10,7 @@ class KytReport extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'company_id', 'departement_id', 'date', 'projectTitle', 'workingStart', 'workingEnd',
+        'user_id', 'company_id', 'department_id', 'date', 'projectTitle', 'workingStart', 'workingEnd',
         'shift','instructors', 'attendants', 'potentialDangerous', 'mostDanger', 'countermeasures', 'keyWord',
         'reviewedBy', 'approvedBy1', 'approvedBy2', 'status'
     ];
@@ -25,6 +25,11 @@ class KytReport extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);
@@ -32,6 +37,6 @@ class KytReport extends Model
 
     public function department()
     {
-        return $this->belongsTo(Department::class, 'departement_id');
+        return $this->belongsTo(Department::class, 'department_id');
     }
 }

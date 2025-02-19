@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id(); // Primary Key (Auto-increment)
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // User yang membuat laporan
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade'); // Perusahaan
-            $table->foreignId('departement_id')->nullable()->constrained('departments')->onDelete('set null'); // Departemen
+            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null'); // Departemen
             
             $table->date('date'); // Tanggal laporan
             $table->string('projectTitle'); // Nama proyek

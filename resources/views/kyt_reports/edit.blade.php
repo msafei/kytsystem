@@ -56,9 +56,9 @@
         <!-- Department Selection -->
         <div>
             <label>Department</label>
-            <select name="departement_id" id="departement_id" class="border w-full p-2 rounded">
+            <select name="department_id" id="department_id" class="border w-full p-2 rounded">
                 @foreach($departments as $department)
-                    <option value="{{ $department->id }}" {{ $kytReport->departement_id == $department->id ? 'selected' : '' }}>
+                    <option value="{{ $department->id }}" {{ $kytReport->department_id == $department->id ? 'selected' : '' }}>
                         {{ $department->name }}
                     </option>
                 @endforeach

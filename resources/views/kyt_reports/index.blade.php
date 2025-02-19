@@ -24,6 +24,7 @@
                 <td>{{ $report->company->name }}</td>
                
                 <td>
+                    <a href="{{ route('kyt_reports.view', $report->id) }}" class="bg-blue-500 text-white px-2 py-1 rounded">View</a>
                     <a href="{{ route('kyt_reports.edit', $report) }}" class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</a>
                     <form action="{{ route('kyt_reports.destroy', $report) }}" method="POST" class="inline">
                         @csrf
