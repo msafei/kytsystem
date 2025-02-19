@@ -8,6 +8,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\KytReportController;
+use App\Http\Controllers\FlowKytReportController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -107,6 +108,12 @@ Route::middleware('auth')->group(function () {
         // API untuk mendapatkan daftar employees berdasarkan company_id
         Route::get('/get-employees/{company_id}', [KytReportController::class, 'getEmployeesByCompany'])->name('kyt_reports.getEmployees');
     });
-    
+
+    Route::prefix('flow_kyt_reports')->group(function () {
+        Route::get('/', [FlowKytReportController::class, 'index'])->name('flow_kyt_reports.index');
+        Route::get('/create', [FlowKytReportController::class, 'create'])->name('flow_kyt_reports.create');
+        Route::post('/store', [FlowKytReportController::class, 'store'])->name('flow_kyt_reports.store');
+        Route::delete('/{id}', [FlowKytReportController::class, 'destroy'])->name('flow_kyt_reports.destroy');
+    });
 
 });

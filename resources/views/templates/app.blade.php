@@ -23,7 +23,8 @@
                     <a href="{{ route('companies.index') }}" class="block px-4 py-2 hover:bg-gray-200">Companies</a>
                     <a href="{{ route('departments.index') }}" class="block px-4 py-2 hover:bg-gray-200">Departments</a>
                     <a href="{{ route('positions.index') }}" class="block px-4 py-2 hover:bg-gray-200">Position</a>
-                    <a href="{{ route('kyt_reports.index') }}" class="block px-4 py-2 hover:bg-gray-200">KYT</a>
+                    <a href="{{ route('kyt_reports.index') }}" class="block px-4 py-2 hover:bg-gray-200">KYT Report</a>
+                    <a href="{{ route('flow_kyt_reports.index') }}" class="block px-4 py-2 hover:bg-gray-200">Flow Approval</a>
                 </div>
             </div>
         </div>
