@@ -47,4 +47,10 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
+
+        // Relasi dengan flow_kyt_report
+        public function flow_kyt_report()
+        {
+            return $this->hasOne(FlowKytReport::class, 'position_id', 'employee_position_id');
+        }
 }

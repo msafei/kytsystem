@@ -15,4 +15,10 @@ class FlowKytReport extends Model
     {
         return $this->belongsTo(Position::class);
     }
+
+    // Relasi dengan KYT Report
+    public function kytReports()
+    {
+        return $this->hasMany(KytReport::class);
+    }
 }

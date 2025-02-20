@@ -107,6 +107,10 @@ Route::middleware('auth')->group(function () {
         
         // API untuk mendapatkan daftar employees berdasarkan company_id
         Route::get('/get-employees/{company_id}', [KytReportController::class, 'getEmployeesByCompany'])->name('kyt_reports.getEmployees');
+    
+        Route::post('/{kytReportId}/approve', [KytReportController::class, 'approve'])->name('kyt_reports.approve');
+        Route::post('/{kytReportId}/reject', [KytReportController::class, 'reject'])->name('kyt_reports.reject');
+                
     });
 
     Route::prefix('flow_kyt_reports')->group(function () {

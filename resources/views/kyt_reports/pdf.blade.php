@@ -156,7 +156,7 @@
                 <td class="section-title">APPROVED2 BY :</td>
             </tr>
             <tr>
-                <td class="center sign-appr">{{$preparedBy}}<br>{{$preparedBy}}</td>
+                <td class="center sign-appr">{{$preparedBy}}<br></td>
                 <td class="center sign-appr">{{$checkedBy}}</td>
                 <td class="center sign-appr">{{$reviewedBy}}</td>
                 <td class="center sign-appr">{{$approvedBy1}}</td>

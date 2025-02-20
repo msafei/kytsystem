@@ -25,6 +25,11 @@ class KytReport extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function flowKytReport()
+    {
+        return $this->belongsTo(FlowKytReport::class);
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class);
