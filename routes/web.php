@@ -113,6 +113,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [FlowKytReportController::class, 'index'])->name('flow_kyt_reports.index');
         Route::get('/create', [FlowKytReportController::class, 'create'])->name('flow_kyt_reports.create');
         Route::post('/store', [FlowKytReportController::class, 'store'])->name('flow_kyt_reports.store');
+        Route::get('/get-positions/{companyType}', [FlowKytReportController::class, 'getPositionsByCompanyType'])->name('flow_kyt_reports.getPositions');
         Route::delete('/{id}', [FlowKytReportController::class, 'destroy'])->name('flow_kyt_reports.destroy');
     });
 

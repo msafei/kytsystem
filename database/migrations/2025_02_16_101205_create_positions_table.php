@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->tinyInteger('companyType'); // 1 = Main Company, 2 = Outsourcing
-            $table->tinyInteger('defaultRole'); // Default role assigned
             $table->timestamps();
         });
     }

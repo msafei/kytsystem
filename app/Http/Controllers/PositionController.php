@@ -23,7 +23,6 @@ class PositionController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'companyType' => 'required|in:1,2',
-            'defaultRole' => 'required|integer',
         ]);
 
         Position::create($request->all());
@@ -42,7 +41,6 @@ class PositionController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'companyType' => 'required|in:1,2',
-            'defaultRole' => 'required|integer',
         ]);
 
         $position = Position::findOrFail($id);

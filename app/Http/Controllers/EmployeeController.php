@@ -145,7 +145,7 @@ class EmployeeController extends Controller
     
         // Ambil posisi employee untuk mendapatkan defaultRole
         $position = \App\Models\Position::find($employee->position_id);
-        $role = $position ? $position->defaultRole : 2; // Default ke role 2 jika tidak ditemukan
+        $role = $position->companyType; // Default ke role 2 jika tidak ditemukan
     
         // Generate username & password acak
         $username = $this->generateUsername($employee->name);

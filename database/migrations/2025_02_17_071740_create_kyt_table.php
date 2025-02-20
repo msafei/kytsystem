@@ -25,8 +25,9 @@ return new class extends Migration {
             $table->text('potentialDangerous')->nullable();
             $table->text('mostDanger')->nullable();
             $table->text('countermeasures')->nullable();
-            $table->text('{keyWord}')->nullable();
+            $table->text('keyWord')->nullable();
 
+            $table->unsignedBigInteger('checkedBy')->nullable();
             $table->unsignedBigInteger('reviewedBy')->nullable();
             $table->unsignedBigInteger('approvedBy1')->nullable();
             $table->unsignedBigInteger('approvedBy2')->nullable();

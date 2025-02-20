@@ -47,21 +47,21 @@ class DatabaseSeeder extends Seeder
         // Insert Positions (Bahasa Inggris)
         DB::table('positions')->insert([
             // CompanyType = 1 (PT Nippon Shokubai Indonesia)
-            ['name' => 'Manager', 'companyType' => 1, 'defaultRole' => 1],
-            ['name' => 'Department Head', 'companyType' => 1, 'defaultRole' => 1],
-            ['name' => 'Supervisor', 'companyType' => 1, 'defaultRole' => 1],
-            ['name' => 'Staff PIC', 'companyType' => 1, 'defaultRole' => 1],
-            ['name' => 'Safety Department', 'companyType' => 1, 'defaultRole' => 1],
+            ['name' => 'Manager', 'companyType' => 1],
+            ['name' => 'Department Head', 'companyType' => 1],
+            ['name' => 'Supervisor', 'companyType' => 1],
+            ['name' => 'Staff PIC', 'companyType' => 1],
+            ['name' => 'Safety Department', 'companyType' => 1],
 
             // CompanyType = 2 (PT Karya Teknik Utama - Jasa Maintenance & Sipil)
-            ['name' => 'Supervisor', 'companyType' => 2, 'defaultRole' => 2],
-            ['name' => 'Safety Officer', 'companyType' => 2, 'defaultRole' => 2],
-            ['name' => 'Mekanik', 'companyType' => 2, 'defaultRole' => 2],
-            ['name' => 'Teknisi Listrik', 'companyType' => 2, 'defaultRole' => 2],
-            ['name' => 'Operator Alat Berat', 'companyType' => 2, 'defaultRole' => 2],
-            ['name' => 'Mandor Sipil', 'companyType' => 2, 'defaultRole' => 2],
-            ['name' => 'Tukang Bangunan', 'companyType' => 2, 'defaultRole' => 2],
-            ['name' => 'Welder (Las)', 'companyType' => 2, 'defaultRole' => 2],
+            ['name' => 'Supervisor', 'companyType' => 2],
+            ['name' => 'Safety Officer', 'companyType' => 2],
+            ['name' => 'Mekanik', 'companyType' => 2],
+            ['name' => 'Teknisi Listrik', 'companyType' => 2],
+            ['name' => 'Operator Alat Berat', 'companyType' => 2],
+            ['name' => 'Mandor Sipil', 'companyType' => 2],
+            ['name' => 'Tukang Bangunan', 'companyType' => 2],
+            ['name' => 'Welder (Las)', 'companyType' => 2],
         ]);
 
         // Ambil ID PT Nippon Shokubai Indonesia (CompanyType = 1)

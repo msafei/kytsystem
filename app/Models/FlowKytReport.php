@@ -9,7 +9,7 @@ class FlowKytReport extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['flow', 'position_id'];
+    protected $fillable = ['flowStatus', 'companyType', 'position_id'];
 
     public function position()
     {
